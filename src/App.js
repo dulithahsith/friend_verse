@@ -16,6 +16,7 @@ const App = () => {
   src={FriendVerse} 
   alt="Friendsverse" 
   sx={{
+    ...styles.imag,
     width: '13%',      
     height: 'auto',     
     display: 'block',  
