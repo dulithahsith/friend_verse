@@ -1,10 +1,18 @@
-import React from "react";
+import React , {useEffect} from "react";
+import { useDispatch } from "react-redux";
+import { getPosts } from "./actions/posts";
+
+
 import Posts from './components/posts/posts';
 import Form from './components/form/form';
 import FriendVerse from './images/FriendVerse.png';
 import {Box, Container, AppBar, Typography, Grow} from '@mui/material';
 import { styles } from './styles'; // Import styles
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPosts());
+  },[dispatch]);
     return( 
         <Container maxWidth="lg">
         <AppBar sx={styles.appBar} position="static" color="inherit">
