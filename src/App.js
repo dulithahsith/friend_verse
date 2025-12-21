@@ -20,17 +20,17 @@ const App = () => {
             FriendsVerse
           </Typography>
           <Box 
-  component="img" 
-  src={FriendVerse} 
-  alt="Friendsverse" 
-  sx={{
-    ...styles.imag,
-    width: '13%',      
-    height: 'auto',     
-    display: 'block',  
-    margin: '0 auto'     
-  }} 
-/>
+          component="img" 
+          src={FriendVerse} 
+          alt="Friendsverse" 
+          sx={{
+            ...styles.imag,
+            width: '13%',      
+            height: 'auto',     
+            display: 'block',  
+            margin: '0 auto'     
+          }} 
+          />
         </AppBar>
         <Grow in>
           <Container>
