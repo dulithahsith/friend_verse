@@ -1,24 +1,45 @@
 
-// You don't need to export styles separately with Box
-// Instead, define them directly in your components using `sx`
-export const styles = {
-    appBar: {
-      borderRadius: 15,
-      margin: '30px 0',
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    borderRadius: 15,
+    margin: '30px 0',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heading: {
+    color: 'rgba(0,183,255, 1)',
+  },
+  image: {
+    border: '3px solid black',
+    backgroundColor: 'blue',
+    padding: '10px',
+    borderRadius: '10px',
+    width: '13%',
+    height: 'auto',
+    display: 'block',
+    margin: '0 auto',
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    gap: theme.spacing(3),
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
     },
-    heading: {
-      color: 'rgba(0,183,255, 1)',
-    },
-    imag: {
-      marginLeft: '15px',
-  border: '3px solid black', // Adds a red border around the image
-  backgroundColor: 'blue', // Adds a yellow background
-  padding: '10px', // Adds padding around the image
-  borderRadius: '10px', // 
-    },
-  };
+  },
+  posts: {
+    flex: 7,
+  },
+  form: {
+    flex: 4,
+  },
+}));
+
+export default useStyles;
   

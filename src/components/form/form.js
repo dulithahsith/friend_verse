@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, TextField } from '@mui/material';
+import { Box, Typography, Button, TextField } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import {useDispatch} from 'react-redux';
 
@@ -17,25 +17,25 @@ const Form = () => {
     dispatch(createPost(postData));
   }
   return (
-    <Box 
-      sx={{
-        padding: 2, // Equivalent to theme.spacing(2)
+    <Box
+      style={{
+        padding: 16,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}
     >
-      <Typography variant="h4" sx={{ marginBottom: 2 }}>
+      <Typography variant="h4" style={{ marginBottom: 16 }}>
         Creating a Memory
       </Typography>
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{
+        style={{
           display: 'flex',
           flexDirection: 'column',
           width: '100%',
-          maxWidth: '600px', // Adjust width as needed
+          maxWidth: '600px',
           margin: 'auto',
         }}
         
@@ -48,7 +48,7 @@ const Form = () => {
           label="Creator"
           value={postData.creator}
           onChange = {(e) => setPostData({...postData, creator: e.target.value})}
-          sx={{ marginBottom: 2 }}
+          style={{ marginBottom: 16 }}
         />
         <TextField 
           variant="outlined"
@@ -58,7 +58,7 @@ const Form = () => {
           label="title"
           value={postData.title}
           onChange = {(e) => setPostData({...postData, title: e.target.value})}
-          sx={{ marginBottom: 2 }}
+          style={{ marginBottom: 16 }}
         />
         <TextField 
           variant="outlined"
@@ -68,7 +68,7 @@ const Form = () => {
           label="Message"
           value={postData.message}
           onChange = {(e) => setPostData({...postData, message: e.target.value})}
-          sx={{ marginBottom: 2 }}
+          style={{ marginBottom: 16 }}
         />
         <TextField 
           variant="outlined"
@@ -78,7 +78,7 @@ const Form = () => {
           label="Tags"
           value={postData.tags}
           onChange = {(e) => setPostData({...postData, tags: e.target.value})}
-          sx={{ marginBottom: 2 }}
+          style={{ marginBottom: 16 }}
         />
         <FileBase
   type="file"
@@ -88,7 +88,7 @@ const Form = () => {
         <Button 
           variant="contained"
           color="primary"
-          sx={{ marginBottom: 2 }}
+          style={{ marginBottom: 16 }}
           type ="submit"
         >
           Submit
