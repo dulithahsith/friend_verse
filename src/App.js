@@ -7,6 +7,9 @@ import Form from "./components/form/form";
 import FriendVerse from "./images/FriendVerse.png";
 import { Box, Container, AppBar, Typography, Grow } from "@material-ui/core";
 import useStyles from "./styles";
+
+import Practice from "./practice";
+
 const App = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -28,9 +31,7 @@ const App = () => {
       </AppBar>
       <Grow in>
         <Container>
-          <Box
-            className={classes.content}
-          >
+          <Box className={classes.content}>
             <Box className={classes.posts}>
               <Posts />
             </Box>
@@ -40,6 +41,7 @@ const App = () => {
           </Box>
         </Container>
       </Grow>
+      <Practice />
     </Container>
   );
 };

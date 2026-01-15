@@ -1,13 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from "@material-ui/core";
 
-const Post = () => {
-  return (
-    <Box sx={{ margin: "20px", color: "blue" }}>
-      <Typography>POST</Typography>
-    </Box>
-  );
-};
+const Post = ({ post }) => (
+  <Box style={{ margin: "20px", color: "blue" }}>
+    <Typography variant="h6">{post.title}</Typography>
+    <Typography>{post.message}</Typography>
+  </Box>
+);
 
 export default Post;
