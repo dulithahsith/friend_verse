@@ -20,7 +20,7 @@ const postsSlice = createSlice({
       );
     },
     updatePost: (state, action) => {
-      // Handle LIKE action
+      // Handle Update action
       return state.map((post) =>
         post._id === action.payload._id ? action.payload : post,
       );
