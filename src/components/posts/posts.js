@@ -1,21 +1,29 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Box } from "@material-ui/core";
+import { Box, CircularProgress, Grid } from "@material-ui/core";
 import Post from "../posts/post/post";
+import useStyles from "./../../styles";
 
 const Posts = () => {
+  const classes = useStyles();
   const posts = useSelector((state) => state.posts); // Access posts from Redux state
   console.log(posts);
 
-  if (!posts.length) return <h2>Loading...</h2>;
+  if (!posts.length) return <CircularProgress />;
 
   return (
-    <Box display="flex" alignItems="center" flexDirection="column" padding={2}>
-      <h1>POSTS</h1>
+    <Grid
+      className={classes.container}
+      container
+      alignItems="stretch"
+      spacing={2}
+    >
       {posts.map((post) => (
-        <Post key={post._id || post.id} post={post} />
+        <Grid key={post._id || post.id} item xs={12} sm={6}>
+          <Post post={post} />
+        </Grid>
       ))}
-    </Box>
+    </Grid>
   );
 };
 

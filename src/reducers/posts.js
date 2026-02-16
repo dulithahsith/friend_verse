@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 // Create a slice for posts
 const postsSlice = createSlice({
-  name: 'posts',
+  name: "posts",
   initialState: [], // Initial state for posts
   reducers: {
     fetchAll: (state, action) => {
@@ -12,12 +12,29 @@ const postsSlice = createSlice({
     create: (state, action) => {
       // Handle CREATE action
       return [...state, action.payload]; // Adds new post to the state
-    }
-  }
+    },
+    likePost: (state, action) => {
+      // Handle LIKE action
+      return state.map((post) =>
+        post._id === action.payload._id ? action.payload : post,
+      );
+    },
+    updatePost: (state, action) => {
+      // Handle LIKE action
+      return state.map((post) =>
+        post._id === action.payload._id ? action.payload : post,
+      );
+    },
+    deletePost: (state, action) => {
+      // Handle LIKE action
+      return state.filter((post) => post._id !== action.payload);
+    },
+  },
 });
 
 // Export actions for use in components
-export const { fetchAll, create } = postsSlice.actions;
+export const { fetchAll, create, likePost, updatePost, deletePost } =
+  postsSlice.actions;
 
 // Export the reducer to be used in store configuration
 export default postsSlice.reducer;
