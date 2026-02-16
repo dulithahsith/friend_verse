@@ -11,6 +11,7 @@ const Form = ({ currentId, setCurrentId }) => {
     title: "",
     message: "",
     tags: " ",
+    selectedFile: "",
   });
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id == currentId) : null,
@@ -40,6 +41,7 @@ const Form = ({ currentId, setCurrentId }) => {
       title: "",
       message: "",
       tags: " ",
+      selectedFile: "",
     });
   };
   return (
@@ -106,10 +108,13 @@ const Form = ({ currentId, setCurrentId }) => {
           name="tags"
           label="Tags"
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
           style={{ marginBottom: 16 }}
         />
         <FileBase
+          key={postData.selectedFile ? "has-file" : "no-file"}
           type="file"
           multiple={false}
           onDone={({ base64 }) =>

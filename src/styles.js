@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     display: "flex",
-    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "stretch",
     gap: theme.spacing(3),
-    [theme.breakpoints.down("xs")]: {
-      flexDirection: "column",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column-reverse",
     },
+    flexDirection: "row",
   },
   posts: {
     flex: 7,
