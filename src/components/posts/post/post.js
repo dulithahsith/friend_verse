@@ -16,7 +16,7 @@ import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import DeleteIcon from "@material-ui/icons/Delete";
 import useStyles from "./../../../styles";
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   return (
@@ -40,7 +40,7 @@ const Post = ({ post }) => {
           style={{ color: "black" }}
           size="small"
           onClick={() => {
-            dispatch(updatePost(post._id));
+            setCurrentId(post._id);
           }}
         >
           <MoreHorizIcon fontSize="default" />

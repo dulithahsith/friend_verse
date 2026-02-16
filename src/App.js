@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getPosts } from "./actions/posts";
 
@@ -11,6 +11,7 @@ import useStyles from "./styles";
 import Practice from "./practice";
 
 const App = () => {
+  const [currentId, setCurrentId] = useState(null);
   const dispatch = useDispatch();
   const classes = useStyles();
   useEffect(() => {
@@ -33,10 +34,10 @@ const App = () => {
         <Container>
           <Box className={classes.content}>
             <Box className={classes.posts}>
-              <Posts />
+              <Posts setCurrentId={setCurrentId} />
             </Box>
             <Box className={classes.form}>
-              <Form />
+              <Form currentId={currentId} setCurrentId={setCurrentId} />
             </Box>
           </Box>
         </Container>
