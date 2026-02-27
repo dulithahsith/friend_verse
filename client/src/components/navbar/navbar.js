@@ -16,37 +16,50 @@ const Navbar = () => {
   const user = null;
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
-      <Typography
-        component={Link}
-        to="/"
-        className={classes.heading}
-        variant="h2"
-        align="center"
-      >
-        FriendsVerse
-      </Typography>
-      <Box
-        component="img"
-        src={FriendVerse}
-        alt="Friendsverse"
-        className={classes.image}
-      />
-
-      {user ? (
-        <div>
-          <Avatar alt={user.result.name} src={user.result.imageUrl}>
-            {user.result.name.charAt(0)}
-          </Avatar>
-          <Typography variant="h6">{user.result.name}</Typography>
-          <Button variant="contained" color="secondary">
-            Logout
-          </Button>
-        </div>
-      ) : (
-        <Button component={Link} to="/auth" variant="contained" color="primary">
-          Sign In
-        </Button>
-      )}
+      <Toolbar className={classes.toolbar}>
+        <Typography
+          component={Link}
+          to="/"
+          className={classes.heading}
+          variant="h2"
+          align="center"
+        >
+          FriendsVerse
+        </Typography>
+        <Box
+          component="img"
+          src={FriendVerse}
+          alt="Friendsverse"
+          className={classes.image}
+        />
+        <Typography>
+          {user ? (
+            <div>
+              <Avatar alt={user.result.name} src={user.result.imageUrl}>
+                {user.result.name.charAt(0)}
+              </Avatar>
+              <Typography variant="h6">{user.result.name}</Typography>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.authButton}
+              >
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <Button
+              component={Link}
+              to="/auth"
+              variant="contained"
+              color="primary"
+              className={classes.authButton}
+            >
+              <center>Sign In</center>
+            </Button>
+          )}
+        </Typography>
+      </Toolbar>
     </AppBar>
   );
 };

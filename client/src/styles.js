@@ -4,23 +4,63 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     borderRadius: 15,
     margin: "30px 0",
+    padding: theme.spacing(1, 3),
+  },
+  toolbar: {
+    width: "100%",
     display: "flex",
-    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: theme.spacing(0, 2),
+  },
+  avatar: {
+    margin: "10px auto", // centers the avatar horizontally
+    backgroundColor: "rgba(0, 183, 255, 1)", // bright blue
+    width: 60, // size of avatar
+    height: 60,
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
+  brandContainer: {
+    display: "flex",
+    alignItems: "center",
+    gap: theme.spacing(2),
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 0,
+    },
+  },
   heading: {
     color: "rgba(0,183,255, 1)",
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "none",
+      color: "rgba(0,183,255, 1)",
+    },
+    "&:visited": {
+      color: "rgba(0,183,255, 1)",
+    },
+  },
+  subHeading: {
+    align: "center",
+  },
+  authButton: {
+    marginLeft: theme.spacing(2), // adds space from left
   },
   image: {
     border: "3px solid black",
     backgroundColor: "blue",
     padding: "10px",
     borderRadius: "10px",
-    width: "13%",
+    width: 64,
     height: "auto",
     display: "block",
-    margin: "0 auto",
+    margin: 0,
+  },
+  profile: {
+    display: "flex",
+    alignItems: "center",
+    gap: theme.spacing(2),
   },
   content: {
     display: "flex",
