@@ -14,7 +14,7 @@ const Form = ({ currentId, setCurrentId }) => {
     selectedFile: "",
   });
   const post = useSelector((state) =>
-    currentId ? state.posts.find((p) => p._id == currentId) : null,
+    currentId ? state.posts.find((p) => p._id === currentId) : null,
   );
   const isEditing = Boolean(currentId && post);
   const dispatch = useDispatch();
