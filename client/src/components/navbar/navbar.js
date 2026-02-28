@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   AppBar,
   Typography,
@@ -13,7 +14,7 @@ import FriendVerse from "../../images/FriendVerse.png";
 
 const Navbar = () => {
   const classes = useStyles();
-  const user = null;
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <Toolbar className={classes.toolbar}>

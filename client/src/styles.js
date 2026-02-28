@@ -57,6 +57,12 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     margin: 0,
   },
+  googleButton: {
+    marginTop: "4px",
+  },
+  submit: {
+    marginTop: "4px",
+  },
   profile: {
     display: "flex",
     alignItems: "center",
