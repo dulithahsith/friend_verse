@@ -13,10 +13,13 @@ import { useGoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Icon from "./icon";
 import { useDispatch } from "react-redux";
+import { AUTH } from "../../constants/actionTypes";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Auth = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
 
@@ -27,15 +30,16 @@ const Auth = () => {
   const handleSubmit = () => {};
   const googleSuccess = async (credentialResponse) => {
     console.log(credentialResponse); // contains res.credential
-    const token = credentialResponse?.credential;
+    const token = credentialResponse?.access_token;
     const res = await fetch(
-      "https:www.googleapis.com/oauth2/v3/userinfo?alt=json",
+      "https:www.googleapis.com/oauth2/v1/userinfo?alt=json",
       { headers: { Authorization: `Bearer ${token}` } },
     );
     const profile = await res.json();
 
     try {
-      dispatch({ type: "AUTH", data: { profile: profile, token: token } });
+      dispatch({ type: AUTH, data: { profile: profile, token: token } });
+      history.push("/");
     } catch (error) {
       console.log(error);
     }

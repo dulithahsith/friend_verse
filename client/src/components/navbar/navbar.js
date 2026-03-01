@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Typography,
@@ -9,12 +8,27 @@ import {
   Button,
 } from "@material-ui/core";
 import useStyles from "../../styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import FriendVerse from "../../images/FriendVerse.png";
+import { LOGOUT } from "../../constants/actionTypes";
+import { useDispatch } from "react-redux";
 
 const Navbar = () => {
   const classes = useStyles();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  console.log(user);
+  useEffect(() => {
+    const token = user?.token;
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
+  const logOut = () => {
+    dispatch({ type: LOGOUT });
+    history.push("/");
+    setUser(null);
+  };
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <Toolbar className={classes.toolbar}>
@@ -35,19 +49,20 @@ const Navbar = () => {
         />
         <Typography>
           {user ? (
-            <div>
-              <Avatar alt={user.result.name} src={user.result.imageUrl}>
-                {user.result.name.charAt(0)}
+            <Box display="flex" alignItems="center" gap={2}>
+              <Avatar alt={user.profile?.name} src={user.profile?.picture}>
+                {user.profile?.name.charAt(0)}
               </Avatar>
-              <Typography variant="h6">{user.result.name}</Typography>
+              <Typography variant="h6">{user.profile?.name}</Typography>
               <Button
                 variant="contained"
                 color="secondary"
                 className={classes.authButton}
+                onClick={logOut}
               >
                 Logout
               </Button>
-            </div>
+            </Box>
           ) : (
             <Button
               component={Link}
@@ -55,6 +70,7 @@ const Navbar = () => {
               variant="contained"
               color="primary"
               className={classes.authButton}
+              onClick={logOut}
             >
               <center>Sign In</center>
             </Button>
