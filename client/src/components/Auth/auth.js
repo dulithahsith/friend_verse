@@ -15,6 +15,15 @@ import Icon from "./icon";
 import { useDispatch } from "react-redux";
 import { AUTH } from "../../constants/actionTypes";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { signUp, signIn } from "../../actions/auth";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Auth = () => {
   const classes = useStyles();
@@ -22,12 +31,21 @@ const Auth = () => {
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
-
+  const [form, setForm] = useState(initialState);
   const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
   const switchMode = () => setIsSignUp((currentMode) => !currentMode);
-  const handleChange = () => {};
-  const handleSubmit = () => {};
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignup) {
+      dispatch(signUp(form, history));
+    } else {
+      dispatch(signIn(form, history));
+    }
+  };
   const googleSuccess = async (credentialResponse) => {
     console.log(credentialResponse); // contains res.credential
     const token = credentialResponse?.access_token;
