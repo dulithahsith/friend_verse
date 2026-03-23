@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Button, TextField } from "@material-ui/core";
+import { Paper, Box, Typography, Button, TextField } from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -7,7 +7,6 @@ import { createPost, updatePost } from "../../actions/posts";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: " ",
@@ -18,6 +17,7 @@ const Form = ({ currentId, setCurrentId }) => {
   );
   const isEditing = Boolean(currentId && post);
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
     if (post) setPostData(post);
@@ -27,17 +27,26 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
     console.log(postData);
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
+      dispatch(updatePost({ ...postData, name: user?.result?.name }));
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user?.result?.name }));
     }
     clear();
   };
 
+  if (!user?.result?.name) {
+    return (
+      <Paper>
+        <Typography variant="h6" align="center">
+          Please Sign In to create your own memories and like other's memories.
+        </Typography>
+      </Paper>
+    );
+  }
+
   const clear = () => {
     setCurrentId(null);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: " ",
@@ -67,18 +76,6 @@ const Form = ({ currentId, setCurrentId }) => {
           margin: "auto",
         }}
       >
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          name="creator"
-          label="Creator"
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-          style={{ marginBottom: 16 }}
-        />
         <TextField
           variant="outlined"
           margin="normal"

@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 const Navbar = () => {
   const classes = useStyles();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  console.log(user);
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -50,10 +51,10 @@ const Navbar = () => {
         <Typography>
           {user ? (
             <Box display="flex" alignItems="center" gap={2}>
-              <Avatar alt={user.profile?.name} src={user.profile?.picture}>
-                {user.profile?.name.charAt(0)}
+              <Avatar alt={user.result?.name} src={user.result?.picture}>
+                {user.result?.name.charAt(0)}
               </Avatar>
-              <Typography variant="h6">{user.profile?.name}</Typography>
+              <Typography variant="h6">{user.result?.name}</Typography>
               <Button
                 variant="contained"
                 color="secondary"

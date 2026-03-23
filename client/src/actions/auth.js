@@ -1,17 +1,20 @@
 import * as api from "../api";
+import { AUTH } from "../constants/actionTypes";
 
-export const signIn = (form, history) => {
+export const signIn = (form, history) => async (dispatch) => {
   try {
-    //sign in..
+    const { data } = await api.signIn(form);
+    dispatch({ type: AUTH, data });
     history.push("/");
   } catch (error) {
     console.log(error);
   }
 };
 
-export const signUp = (form, history) => {
+export const signUp = (form, history) => async (dispatch) => {
   try {
-    //sign Up..
+    const { data } = await api.signUp(form);
+    dispatch({ type: AUTH, data });
     history.push("/");
   } catch (error) {
     console.log(error);
