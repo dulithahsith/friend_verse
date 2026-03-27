@@ -15,14 +15,16 @@ export const signIn = async (req, res) => {
     );
     if (!isPasswordCorrect)
       return res.status(400).json({ message: "Invalid Credentials" });
-    const token = jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
-      "secret",
-      { expiresIn: "1h" },
+    const accessToken = jwt.sign(
+      { email: existingUser.email, id: existingUser._id, type: "access" },
+      "test",
+      {
+        expiresIn: "15m",
+      },
     );
-    res.status(200).json({ result: existingUser, token: token });
+    res.status(200).json({ result: existingUser, accessToken });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong." });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -41,11 +43,51 @@ export const signUp = async (req, res) => {
       password: hashedPassword,
       name: `${firstName} ${lastName}`,
     });
-    const token = jwt.sign({ email: result.email, id: result._id }, "secret", {
-      expiresIn: "1h",
-    });
-    res.status(200).json({ result: result, token });
+    const accessToken = jwt.sign(
+      { email: result.email, id: result._id, type: "access" },
+      "test",
+      {
+        expiresIn: "15m",
+      },
+    );
+    const refreshToken = jwt.sign(
+      { email: result.email, id: result._id, type: "refresh" },
+      "refresh",
+      {
+        expiresIn: "7d",
+      },
+    );
+    res.status(200).json({ result: result, accessToken, refreshToken });
   } catch (error) {
     res.status(500).json({ message: "Somethin went wrong." });
+  }
+};
+
+export const refresh = async (req, res) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
+    return res.status(401).json({ message: "No Refresh Token" });
+  }
+  try {
+    const decoded = jwt.verify(refreshToken);
+    if (decoded.type !== "refresh") {
+      return res.status(403).json({ message: "Invalid token type" });
+    }
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const newAccessToken = jwt.sign(
+      { email: user.email, id: user._id, type: "access" },
+      "test",
+      {
+        expiresIn: "15m",
+      },
+    );
+
+    return res.status(200).json({ accessToken: newAccessToken });
+  } catch (error) {
+    res.status(403).json({ message: "Refresh Token Expired or Invalid." });
   }
 };
