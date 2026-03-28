@@ -88,6 +88,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 15,
     position: "relative",
     height: "100%",
+    display: "flex",
+    flexDirection: "column",
   },
   media: {
     height: 0,

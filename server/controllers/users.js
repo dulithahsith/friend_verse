@@ -19,14 +19,14 @@ export const signIn = async (req, res) => {
       { email: existingUser.email, id: existingUser._id, type: "access" },
       "test",
       {
-        expiresIn: "1m",
+        expiresIn: "50m",
       },
     );
     const refreshToken = jwt.sign(
       { email: existingUser.email, id: existingUser._id, type: "refresh" },
       "refresh",
       {
-        expiresIn: "1m",
+        expiresIn: "50m",
       },
     );
     res.status(200).json({ result: existingUser, accessToken, refreshToken });
@@ -107,14 +107,14 @@ export const signUp = async (req, res) => {
       { email: result.email, id: result._id, type: "access" },
       "test",
       {
-        expiresIn: "1m",
+        expiresIn: "50m",
       },
     );
     const refreshToken = jwt.sign(
       { email: result.email, id: result._id, type: "refresh" },
       "refresh",
       {
-        expiresIn: "1m",
+        expiresIn: "50m",
       },
     );
     res.status(200).json({ result: result, accessToken, refreshToken });
@@ -142,12 +142,36 @@ export const refresh = async (req, res) => {
       { email: user.email, id: user._id, type: "access" },
       "test",
       {
-        expiresIn: "1m",
+        expiresIn: "50m",
       },
     );
 
     return res.status(200).json({ accessToken: newAccessToken });
   } catch (error) {
     res.status(403).json({ message: "Refresh Token Expired or Invalid." });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid user id." });
+  }
+
+  if (req.userId !== id) {
+    return res.status(403).json({ message: "You can only delete your own account." });
+  }
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    return res.status(200).json({ message: "User deleted successfully." });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 };

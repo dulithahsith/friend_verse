@@ -2,9 +2,11 @@ import bodyParser from "body-parser";
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
 
 import postRoutes from "./routes/posts.js";
 import userRoutes from "./routes/users.js";
+import swaggerDocument from "./docs/swagger.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -13,6 +15,11 @@ app.use(cors());
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+
+app.get("/api-docs.json", (req, res) => {
+  res.json(swaggerDocument);
+});
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/posts", postRoutes);
 app.use("/users", userRoutes);

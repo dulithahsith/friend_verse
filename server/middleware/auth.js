@@ -14,10 +14,10 @@ const auth = async (req, res, next) => {
     }
 
     let decodedData;
+    decodedData = jwt.verify(token, "test");
     if (decodedData.type !== "access") {
       return res.status(401).json({ message: "Invalid access token" });
     }
-    decodedData = jwt.verify(token, "test");
     req.userId = decodedData?.id;
     next();
   } catch (error) {
