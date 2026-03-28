@@ -19,12 +19,72 @@ export const signIn = async (req, res) => {
       { email: existingUser.email, id: existingUser._id, type: "access" },
       "test",
       {
-        expiresIn: "15m",
+        expiresIn: "1m",
       },
     );
-    res.status(200).json({ result: existingUser, accessToken });
+    const refreshToken = jwt.sign(
+      { email: existingUser.email, id: existingUser._id, type: "refresh" },
+      "refresh",
+      {
+        expiresIn: "1m",
+      },
+    );
+    res.status(200).json({ result: existingUser, accessToken, refreshToken });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const googleSignIn = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token)
+      return res.status(400).json({ message: "Google Token is required." });
+    const response = await fetch(
+      "https://www.googleapis.com/oauth2/v1/userinfo?alt=json",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    if (!response.ok) {
+      return res.status(401).json({ message: "Invalid Google token" });
+    }
+
+    const profile = await response.json();
+
+    let existingUser = await User.findOne({ email: profile.email });
+
+    if (!existingUser) {
+      existingUser = await User.create({
+        email: profile.email,
+        name: `${profile.given_name || ""} ${profile.family_name || ""}`.trim(),
+        picture: profile.picture,
+      });
+    }
+
+    const accessToken = jwt.sign(
+      { email: existingUser.email, id: existingUser._id, type: "access" },
+      "test",
+      { expiresIn: "15m" },
+    );
+
+    const refreshToken = jwt.sign(
+      { id: existingUser._id, type: "refresh" },
+      "refresh",
+      { expiresIn: "7d" },
+    );
+
+    res.status(200).json({
+      result: existingUser,
+      accessToken,
+      refreshToken,
+    });
+  } catch (error) {
+    console.log("googleSignIn error:", error);
+    res.status(500).json({ message: "Google sign in failed." });
   }
 };
 
@@ -47,14 +107,14 @@ export const signUp = async (req, res) => {
       { email: result.email, id: result._id, type: "access" },
       "test",
       {
-        expiresIn: "15m",
+        expiresIn: "1m",
       },
     );
     const refreshToken = jwt.sign(
       { email: result.email, id: result._id, type: "refresh" },
       "refresh",
       {
-        expiresIn: "7d",
+        expiresIn: "1m",
       },
     );
     res.status(200).json({ result: result, accessToken, refreshToken });
@@ -69,7 +129,7 @@ export const refresh = async (req, res) => {
     return res.status(401).json({ message: "No Refresh Token" });
   }
   try {
-    const decoded = jwt.verify(refreshToken);
+    const decoded = jwt.verify(refreshToken, "refresh");
     if (decoded.type !== "refresh") {
       return res.status(403).json({ message: "Invalid token type" });
     }
@@ -82,7 +142,7 @@ export const refresh = async (req, res) => {
       { email: user.email, id: user._id, type: "access" },
       "test",
       {
-        expiresIn: "15m",
+        expiresIn: "1m",
       },
     );
 

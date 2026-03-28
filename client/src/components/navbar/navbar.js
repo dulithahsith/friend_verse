@@ -16,13 +16,10 @@ import { useDispatch } from "react-redux";
 const Navbar = () => {
   const classes = useStyles();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  console.log(user);
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
-  console.log(user);
   useEffect(() => {
-    const token = user?.token;
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
   const logOut = () => {

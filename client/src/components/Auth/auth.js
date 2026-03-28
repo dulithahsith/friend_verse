@@ -15,7 +15,7 @@ import Icon from "./icon";
 import { useDispatch } from "react-redux";
 import { AUTH } from "../../constants/actionTypes";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { signUp, signIn } from "../../actions/auth";
+import { signUp, signIn, googleSignIn } from "../../actions/auth";
 
 const initialState = {
   firstName: "",
@@ -47,17 +47,19 @@ const Auth = () => {
     }
   };
   const googleSuccess = async (credentialResponse) => {
-    console.log(credentialResponse); // contains res.credential
-    const token = credentialResponse?.access_token;
-    const res = await fetch(
-      "https:www.googleapis.com/oauth2/v1/userinfo?alt=json",
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
-    const profile = await res.json();
-
     try {
-      dispatch({ type: AUTH, data: { profile: profile, token: token } });
-      history.push("/");
+      console.log("----------------");
+      console.log(credentialResponse); // contains res.credential
+      console.log("----------------");
+      const token = credentialResponse?.access_token;
+      // const res = await fetch(
+      //   "https:www.googleapis.com/oauth2/v1/userinfo?alt=json",
+      //   { headers: { Authorization: `Bearer ${token}` } },
+      // );
+      // const profile = await res.json();
+      // console.log(profile);
+
+      dispatch(googleSignIn({ token }, history));
     } catch (error) {
       console.log(error);
     }

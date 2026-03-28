@@ -20,3 +20,12 @@ export const signUp = (form, history) => async (dispatch) => {
     console.log(error);
   }
 };
+export const googleSignIn = (googleData, history) => async (dispatch) => {
+  try {
+    const { data } = await api.googleSignIn(googleData);
+    dispatch({ type: AUTH, data });
+    history.push("/");
+  } catch (error) {
+    console.log(error);
+  }
+};
