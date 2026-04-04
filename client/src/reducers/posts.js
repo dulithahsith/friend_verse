@@ -9,6 +9,10 @@ const postsSlice = createSlice({
       // Handle FETCH_ALL action
       return action.payload; // Typically, you'd handle the state update here
     },
+    fetchPostsBySearch: (state, action) => {
+      // Handle FETCH_ALL action
+      return action.payload; // Typically, you'd handle the state update here
+    },
     create: (state, action) => {
       // Handle CREATE action
       return [...state, action.payload]; // Adds new post to the state
@@ -33,8 +37,14 @@ const postsSlice = createSlice({
 });
 
 // Export actions for use in components
-export const { fetchAll, create, likePost, updatePost, deletePost } =
-  postsSlice.actions;
+export const {
+  fetchAll,
+  create,
+  likePost,
+  updatePost,
+  deletePost,
+  fetchPostsBySearch,
+} = postsSlice.actions;
 
 // Export the reducer to be used in store configuration
 export default postsSlice.reducer;

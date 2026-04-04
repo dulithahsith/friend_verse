@@ -50,7 +50,12 @@ const Post = ({ post, setCurrentId }) => {
     );
   };
   return (
-    <Card className={classes.card} style={{ position: "relative" }}>
+    <Card
+      className={classes.card}
+      raised
+      elevation={6}
+      style={{ position: "relative" }}
+    >
       {post.selectedFile && (
         <CardMedia
           className={classes.media}

@@ -5,6 +5,7 @@ import {
   likePost as likePostAction,
   updatePost as updatePostAction,
   deletePost as deletePostAction,
+  fetchPostsBySearch as searchPostAction,
 } from "../reducers/posts";
 
 export const getPosts = () => async (dispatch) => {
@@ -47,5 +48,14 @@ export const deletePost = (id) => async (dispatch) => {
     dispatch(deletePostAction(id));
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+  try {
+    const { data } = await api.fetchPostsBySearch(searchQuery);
+    dispatch(searchPostAction(data.data));
+  } catch (error) {
+    console.log(error);
   }
 };

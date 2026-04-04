@@ -7,7 +7,6 @@ import useStyles from "./../../styles";
 const Posts = ({ setCurrentId }) => {
   const classes = useStyles();
   const posts = useSelector((state) => state.posts); // Access posts from Redux state
-  console.log(posts);
 
   if (!posts.length) return <CircularProgress />;
 
@@ -19,7 +18,7 @@ const Posts = ({ setCurrentId }) => {
       spacing={2}
     >
       {posts.map((post) => (
-        <Grid key={post._id || post.id} item xs={12} sm={6}>
+        <Grid key={post._id || post.id} item xs={12} sm={12} md={6} lg={3}>
           <Post post={post} setCurrentId={setCurrentId} />
         </Grid>
       ))}
