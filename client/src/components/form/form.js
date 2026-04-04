@@ -72,7 +72,7 @@ const Form = ({ currentId, setCurrentId }) => {
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          maxWidth: "600px",
+          maxWidth: "100%",
           margin: "auto",
         }}
       >
