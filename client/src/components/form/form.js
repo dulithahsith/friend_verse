@@ -55,83 +55,87 @@ const Form = ({ currentId, setCurrentId }) => {
     });
   };
   return (
-    <Box
-      style={{
-        padding: 16,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <Typography variant="h4" style={{ marginBottom: 16 }}>
-        {isEditing ? "Editing a Memory" : "Creating a Memory"}
-      </Typography>
+    <Paper elevation={6}>
       <Box
-        component="form"
-        onSubmit={handleSubmit}
         style={{
+          padding: 16,
           display: "flex",
           flexDirection: "column",
-          width: "100%",
-          maxWidth: "100%",
-          margin: "auto",
+          alignItems: "center",
         }}
       >
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          name="Title"
-          label="title"
-          value={postData.title}
-          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
-          style={{ marginBottom: 16 }}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          name="message"
-          label="Message"
-          value={postData.message}
-          onChange={(e) =>
-            setPostData({ ...postData, message: e.target.value })
-          }
-          style={{ marginBottom: 16 }}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          name="tags"
-          label="Tags"
-          value={postData.tags}
-          onChange={(e) =>
-            setPostData({ ...postData, tags: e.target.value.split(",") })
-          }
-          style={{ marginBottom: 16 }}
-        />
-        <FileBase
-          key={postData.selectedFile ? "has-file" : "no-file"}
-          type="file"
-          multiple={false}
-          onDone={({ base64 }) =>
-            setPostData({ ...postData, selectedFile: base64 })
-          }
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ marginBottom: 16 }}
-          type="submit"
+        <Typography variant="h4" style={{ marginBottom: 16 }}>
+          {isEditing ? "Editing a Memory" : "Creating a Memory"}
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            maxWidth: "100%",
+            margin: "auto",
+          }}
         >
-          Submit
-        </Button>
-        <Button variant="contained" color="secondary" onClick={clear}>
-          Clear
-        </Button>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            name="Title"
+            label="title"
+            value={postData.title}
+            onChange={(e) =>
+              setPostData({ ...postData, title: e.target.value })
+            }
+            style={{ marginBottom: 16 }}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            name="message"
+            label="Message"
+            value={postData.message}
+            onChange={(e) =>
+              setPostData({ ...postData, message: e.target.value })
+            }
+            style={{ marginBottom: 16 }}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            name="tags"
+            label="Tags"
+            value={postData.tags}
+            onChange={(e) =>
+              setPostData({ ...postData, tags: e.target.value.split(",") })
+            }
+            style={{ marginBottom: 16 }}
+          />
+          <FileBase
+            key={postData.selectedFile ? "has-file" : "no-file"}
+            type="file"
+            multiple={false}
+            onDone={({ base64 }) =>
+              setPostData({ ...postData, selectedFile: base64 })
+            }
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginBottom: 16 }}
+            type="submit"
+          >
+            Submit
+          </Button>
+          <Button variant="contained" color="secondary" onClick={clear}>
+            Clear
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

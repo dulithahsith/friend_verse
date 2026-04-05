@@ -6,11 +6,13 @@ import useStyles from "./../../styles";
 
 const Posts = ({ setCurrentId }) => {
   const classes = useStyles();
-  const posts = useSelector((state) => state.posts.posts);
+  const { posts, isLoading } = useSelector((state) => state.posts); // Access posts from Redux state
 
-  if (!posts.length) return <CircularProgress />;
+  if (!posts.length && !isLoading) return "No Posts";
 
-  return (
+  return isLoading ? (
+    <CircularProgress />
+  ) : (
     <Grid
       className={classes.container}
       container

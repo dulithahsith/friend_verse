@@ -6,12 +6,16 @@ import {
   updatePost as updatePostAction,
   deletePost as deletePostAction,
   fetchPostsBySearch as searchPostAction,
+  startLoading,
+  endLoading,
 } from "../reducers/posts";
 
 export const getPosts = (page) => async (dispatch) => {
   try {
+    dispatch(startLoading());
     const { data } = await api.fetchPosts(page);
     dispatch(fetchAll(data));
+    dispatch(endLoading());
   } catch (error) {
     console.log(error.message);
   }
@@ -19,8 +23,10 @@ export const getPosts = (page) => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
   try {
+    dispatch(startLoading());
     const { data } = await api.createPost(post);
     dispatch(create(data));
+    dispatch(endLoading());
   } catch (error) {
     console.log(error.message);
   }
@@ -53,8 +59,10 @@ export const deletePost = (id) => async (dispatch) => {
 
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   try {
+    dispatch(startLoading());
     const { data } = await api.fetchPostsBySearch(searchQuery);
     dispatch(searchPostAction(data));
+    dispatch(endLoading());
   } catch (error) {
     console.log(error);
   }

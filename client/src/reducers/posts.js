@@ -4,11 +4,18 @@ import { createSlice } from "@reduxjs/toolkit";
 const postsSlice = createSlice({
   name: "posts",
   initialState: {
+    isLoading: true,
     posts: [],
     currentPage: 1,
     numberOfPages: 1,
   },
   reducers: {
+    startLoading: (state) => {
+      state.isLoading = true;
+    },
+    endLoading: (state) => {
+      state.isLoading = false;
+    },
     fetchAll: (state, action) => {
       state.posts = action.payload.data;
       state.currentPage = action.payload.currentPage;
@@ -46,6 +53,8 @@ export const {
   updatePost,
   deletePost,
   fetchPostsBySearch,
+  startLoading,
+  endLoading,
 } = postsSlice.actions;
 
 // Export the reducer to be used in store configuration
