@@ -1,15 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Pagination, PaginationItem } from "@material-ui/lab";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-
-import { getPosts } from "../actions/posts";
+import { useSelector } from "react-redux";
 
 import useStyles from "./styles";
 
 const Paginate = ({ page }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { numberOfPages, currentPage } = useSelector((state) => state.posts);
 
   const location = useLocation();
@@ -21,9 +18,6 @@ const Paginate = ({ page }) => {
     (searchQuery && searchQuery !== "none") || (tags && tags.trim() !== ""),
   );
 
-  useEffect(() => {
-    if (page) dispatch(getPosts(page));
-  }, [dispatch, page]);
   return (
     <Pagination
       classes={{ ul: classes.ul }}
