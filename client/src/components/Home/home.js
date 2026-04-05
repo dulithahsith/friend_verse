@@ -29,24 +29,39 @@ const Home = () => {
   const history = useHistory();
   const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
+  const tagsFromUrl = query.get("tags");
+
+  const hasSearchQuery = searchQuery && searchQuery !== "none";
+  const hasTags = tagsFromUrl && tagsFromUrl.trim() !== "";
 
   const classes = useStyles();
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
 
   const searchPost = () => {
     if (search.trim() || tags) {
-      dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
+      dispatch(getPostsBySearch({ search, tags: tags.join(","), page: 1 }));
       history.push(
-        `/posts/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`,
+        `/posts/search?searchQuery=${search || "none"}&tags=${tags.join(",")}&page=1`,
       );
     } else {
       history.push("/");
     }
   };
+
+  useEffect(() => {
+    if (hasSearchQuery || hasTags) {
+      dispatch(
+        getPostsBySearch({
+          search: hasSearchQuery ? searchQuery : "",
+          tags: hasTags ? tagsFromUrl : "",
+          page,
+        }),
+      );
+    } else {
+      dispatch(getPosts(page));
+    }
+  }, [dispatch, page, searchQuery, tagsFromUrl]);
 
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) {
@@ -100,7 +115,7 @@ const Home = () => {
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
             <Paper className={classes.pagination} elevation={6}>
-              <Paginate />
+              <Paginate page={page} />
             </Paper>
           </Grid>
         </Grid>

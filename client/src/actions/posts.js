@@ -8,9 +8,9 @@ import {
   fetchPostsBySearch as searchPostAction,
 } from "../reducers/posts";
 
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
   try {
-    const { data } = await api.fetchPosts();
+    const { data } = await api.fetchPosts(page);
     dispatch(fetchAll(data));
   } catch (error) {
     console.log(error.message);
@@ -54,7 +54,7 @@ export const deletePost = (id) => async (dispatch) => {
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   try {
     const { data } = await api.fetchPostsBySearch(searchQuery);
-    dispatch(searchPostAction(data.data));
+    dispatch(searchPostAction(data));
   } catch (error) {
     console.log(error);
   }
