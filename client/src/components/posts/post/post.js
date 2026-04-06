@@ -79,7 +79,8 @@ const Post = ({ post, setCurrentId }) => {
             style={{ color: "black" }}
             size="small"
             disabled={!isCreator}
-            onClick={() => {
+            onClick={(event) => {
+              event.stopPropagation();
               if (isCreator) {
                 setCurrentId(post._id);
               }

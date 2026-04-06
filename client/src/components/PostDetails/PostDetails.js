@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useParams, useHistory } from "react-router-dom";
 
-import { getPost } from "../../actions/posts";
+import { getPost, getPostsBySearch } from "../../actions/posts";
 import useStyles from "./../../styles";
 
 const PostDetails = () => {
@@ -23,7 +23,19 @@ const PostDetails = () => {
   useEffect(() => {
     dispatch(getPost(id));
   }, [id]);
-  console.log("POST DETAILS");
+
+  useEffect(() => {
+    if (post?.tags?.length) {
+      dispatch(
+        getPostsBySearch({
+          search: "none",
+          tags: post.tags.join(","),
+          page: 1,
+          limit: 4,
+        }),
+      );
+    }
+  }, [dispatch, post]);
   if (!post) return null;
   if (isLoading) {
     return (
@@ -32,6 +44,9 @@ const PostDetails = () => {
       </Paper>
     );
   }
+  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
+
+  const openPost = (_id) => history.push(`/posts/${_id}`);
   return (
     <Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>
       <Box
@@ -87,6 +102,39 @@ const PostDetails = () => {
           </Box>
         )}
       </Box>
+      {recommendedPosts.length && (
+        <div className={classes.section}>
+          <Typography gutterBottom variant="h5">
+            You might also like:
+          </Typography>
+          <Divider />
+          <div className={classes.recommendedPosts}>
+            {recommendedPosts.map(
+              ({ title, message, name, likes, selectedFile, _id }) => (
+                <div
+                  style={{ margin: "20px", cursor: "pointer" }}
+                  onClick={() => openPost(_id)}
+                  key={_id}
+                >
+                  <Typography gutterBottom variant="h6">
+                    {title}
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle2">
+                    {name}
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle2">
+                    {message}
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle1">
+                    Likes: {likes.length}
+                  </Typography>
+                  <img src={selectedFile} width="200px" />
+                </div>
+              ),
+            )}
+          </div>
+        </div>
+      )}
     </Paper>
   );
 };

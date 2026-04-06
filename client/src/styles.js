@@ -78,6 +78,17 @@ const useStyles = makeStyles((theme) => ({
     },
     flexDirection: "row",
   },
+  section: {
+    borderRadius: 20,
+    marginTop: theme.spacing(4),
+  },
+  recommendedPosts: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: theme.spacing(3),
+    marginTop: theme.spacing(2),
+    alignItems: "flex-start",
+  },
   posts: {
     flex: 7,
   },

@@ -33,10 +33,10 @@ export const getPosts = async (req, res) => {
 };
 
 export const getPostsBySearch = async (req, res) => {
-  const { searchQuery, tags, page } = req.query;
+  const { searchQuery, tags, page, limit } = req.query;
 
   try {
-    const LIMIT = 2;
+    const LIMIT = Number(limit) || 2;
     const currentPage = Number(page) || 1;
     const startIndex = (currentPage - 1) * LIMIT;
     const title = new RegExp(searchQuery, "i");
