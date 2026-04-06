@@ -4,23 +4,25 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { useDispatch } from "react-redux";
 import { likePost, deletePost, updatePost } from "../../../actions/posts";
 import {
-  Box,
   Typography,
   Card,
   CardActions,
   CardContent,
   CardMedia,
   Button,
+  ButtonBase,
 } from "@material-ui/core";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import DeleteIcon from "@material-ui/icons/Delete";
-import useStyles from "./../../../styles";
+import useStyles from "./styles";
 
 const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
   const isCreator = user?.result?._id === post?.creator;
+  const history = useHistory();
 
   const Likes = () => {
     const likes = post?.likes || [];
@@ -49,6 +51,7 @@ const Post = ({ post, setCurrentId }) => {
       </>
     );
   };
+  const openPost = () => history.push(`/posts/${post._id}`);
   return (
     <Card
       className={classes.card}
@@ -56,44 +59,46 @@ const Post = ({ post, setCurrentId }) => {
       elevation={6}
       style={{ position: "relative" }}
     >
-      {post.selectedFile && (
-        <CardMedia
-          className={classes.media}
-          image={post.selectedFile}
-          title={post.title}
-        />
-      )}
-      <div>
-        <Typography variant="h6">{post.name}</Typography>
-        <Typography variant="h4">{post.title}</Typography>
-        <Typography variant="body2">
-          {moment(post.createdAt).fromNow()}
-        </Typography>
-      </div>
-      <div style={{ position: "absolute", top: 8, right: 8 }}>
-        <Button
-          style={{ color: "black" }}
-          size="small"
-          disabled={!isCreator}
-          onClick={() => {
-            if (isCreator) {
-              setCurrentId(post._id);
-            }
-          }}
-        >
-          <MoreHorizIcon fontSize="medium" />
-        </Button>
-      </div>
-      <div>
-        <Typography variant="body2" color="textSecondary">
-          {post.tags.map((tag) => `#${tag}`)}
-        </Typography>
-      </div>
-      <CardContent>
-        <Typography variant="h5" gutterBottom>
-          {post.message}
-        </Typography>
-      </CardContent>
+      <ButtonBase className={classes.cardAction} onClick={openPost}>
+        {post.selectedFile && (
+          <CardMedia
+            className={classes.media}
+            image={post.selectedFile}
+            title={post.title}
+          />
+        )}
+        <div>
+          <Typography variant="h6">{post.name}</Typography>
+          <Typography variant="h4">{post.title}</Typography>
+          <Typography variant="body2">
+            {moment(post.createdAt).fromNow()}
+          </Typography>
+        </div>
+        <div style={{ position: "absolute", top: 8, right: 8 }}>
+          <Button
+            style={{ color: "black" }}
+            size="small"
+            disabled={!isCreator}
+            onClick={() => {
+              if (isCreator) {
+                setCurrentId(post._id);
+              }
+            }}
+          >
+            <MoreHorizIcon fontSize="medium" />
+          </Button>
+        </div>
+        <div>
+          <Typography variant="body2" color="textSecondary">
+            {post.tags.map((tag) => `#${tag}`)}
+          </Typography>
+        </div>
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            {post.message}
+          </Typography>
+        </CardContent>
+      </ButtonBase>
       <CardActions style={{ marginTop: "auto" }}>
         <Button
           color="primary"

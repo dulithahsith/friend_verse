@@ -1,6 +1,7 @@
 import express from "express";
 
 import {
+  getPost,
   getPosts,
   getPostsBySearch,
   createPost,
@@ -13,6 +14,7 @@ const router = express.Router();
 
 router.get("/search", getPostsBySearch);
 router.get("/", getPosts);
+router.get("/:id", getPost);
 router.post("/", auth, createPost);
 router.patch("/:id/like/", auth, likePost);
 router.patch("/:id/", auth, updatePost);

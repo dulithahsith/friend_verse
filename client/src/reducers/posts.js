@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const postsSlice = createSlice({
   name: "posts",
   initialState: {
+    post: null,
     isLoading: true,
     posts: [],
     currentPage: 1,
@@ -20,6 +21,9 @@ const postsSlice = createSlice({
       state.posts = action.payload.data;
       state.currentPage = action.payload.currentPage;
       state.numberOfPages = action.payload.numberOfPages;
+    },
+    fetchPost: (state, action) => {
+      state.post = action.payload;
     },
     fetchPostsBySearch: (state, action) => {
       state.posts = action.payload.data;
@@ -47,6 +51,7 @@ const postsSlice = createSlice({
 
 // Export actions for use in components
 export const {
+  fetchPost,
   fetchAll,
   create,
   likePost,

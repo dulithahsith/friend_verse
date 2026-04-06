@@ -1,5 +1,6 @@
 import * as api from "../api";
 import {
+  fetchPost,
   fetchAll,
   create,
   likePost as likePostAction,
@@ -9,6 +10,17 @@ import {
   startLoading,
   endLoading,
 } from "../reducers/posts";
+
+export const getPost = (id) => async (dispatch) => {
+  try {
+    dispatch(startLoading());
+    const { data } = await api.fetchPost(id);
+    dispatch(fetchPost(data));
+    dispatch(endLoading());
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const getPosts = (page) => async (dispatch) => {
   try {
