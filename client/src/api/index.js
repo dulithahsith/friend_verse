@@ -53,6 +53,8 @@ export const createPost = (newPost) => API.post("/posts", newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/like`);
 export const updatePost = (id, post) => API.patch(`/posts/${id}`, post);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
+export const commentPost = (value, id) =>
+  API.post(`/posts/${id}/comment`, { value });
 
 export const signIn = (form) => API.post("/users/signin", form);
 export const googleSignIn = (googleData) =>

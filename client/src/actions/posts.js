@@ -3,6 +3,7 @@ import {
   fetchPost,
   fetchAll,
   create,
+  commentPost as commentPostAction,
   likePost as likePostAction,
   updatePost as updatePostAction,
   deletePost as deletePostAction,
@@ -75,6 +76,15 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     const { data } = await api.fetchPostsBySearch(searchQuery);
     dispatch(searchPostAction(data));
     dispatch(endLoading());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const commentPost = (value, id) => async (dispatch) => {
+  try {
+    const { data } = await api.commentPost(value, id);
+    dispatch(commentPostAction(data));
   } catch (error) {
     console.log(error);
   }

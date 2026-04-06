@@ -6,6 +6,7 @@ import {
   getPostsBySearch,
   createPost,
   likePost,
+  commentPost,
   updatePost,
   deletePost,
 } from "../controllers/posts.js";
@@ -17,6 +18,7 @@ router.get("/", getPosts);
 router.get("/:id", getPost);
 router.post("/", auth, createPost);
 router.patch("/:id/like/", auth, likePost);
+router.post("/:id/comment/", auth, commentPost);
 router.patch("/:id/", auth, updatePost);
 router.delete("/:id/", auth, deletePost);
 

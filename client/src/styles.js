@@ -78,6 +78,34 @@ const useStyles = makeStyles((theme) => ({
     },
     flexDirection: "row",
   },
+  commentOuterContainer: {
+    display: "flex",
+    gap: theme.spacing(3),
+    alignItems: "stretch",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+    },
+  },
+  commentsInnerContainer: {
+    flex: "1 1 55%",
+    minWidth: 0,
+  },
+  commentsList: {
+    maxHeight: "10.5em",
+    overflowY: "auto",
+    paddingRight: theme.spacing(1),
+    border: "1px solid rgba(0, 0, 0, 0.12)",
+    borderRadius: 12,
+    padding: theme.spacing(1.5),
+    backgroundColor: "#fafafa",
+  },
+  commentItem: {
+    wordBreak: "break-word",
+  },
+  commentFormOuterContainer: {
+    flex: "1 1 45%",
+    minWidth: 0,
+  },
   section: {
     borderRadius: 20,
     marginTop: theme.spacing(4),

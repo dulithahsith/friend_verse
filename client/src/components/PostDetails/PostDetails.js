@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useParams, useHistory } from "react-router-dom";
 
+import CommentSection from "./CommentSection";
 import { getPost, getPostsBySearch } from "../../actions/posts";
 import useStyles from "./../../styles";
 
@@ -23,6 +24,7 @@ const PostDetails = () => {
   useEffect(() => {
     dispatch(getPost(id));
   }, [id]);
+  const tagsKey = post?.tags?.join(",");
 
   useEffect(() => {
     if (post?.tags?.length) {
@@ -35,7 +37,7 @@ const PostDetails = () => {
         }),
       );
     }
-  }, [dispatch, post]);
+  }, [dispatch, tagsKey]);
   if (!post) return null;
   if (isLoading) {
     return (
@@ -81,9 +83,7 @@ const PostDetails = () => {
             <strong>Realtime Chat - coming soon!</strong>
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
-          <Typography variant="body1">
-            <strong>Comments - coming soon!</strong>
-          </Typography>
+          <CommentSection post={post} />
           <Divider style={{ margin: "20px 0" }} />
         </Box>
         {post.selectedFile && (

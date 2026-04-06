@@ -38,6 +38,14 @@ const postsSlice = createSlice({
         post._id === action.payload._id ? action.payload : post,
       );
     },
+    commentPost: (state, action) => {
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post,
+      );
+      if (state.post?._id === action.payload._id) {
+        state.post = action.payload;
+      }
+    },
     updatePost: (state, action) => {
       state.posts = state.posts.map((post) =>
         post._id === action.payload._id ? action.payload : post,
@@ -55,6 +63,7 @@ export const {
   fetchAll,
   create,
   likePost,
+  commentPost,
   updatePost,
   deletePost,
   fetchPostsBySearch,
