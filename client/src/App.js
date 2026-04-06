@@ -6,7 +6,6 @@ import PostDetails from "./components/PostDetails/PostDetails";
 
 import { Container } from "@material-ui/core";
 
-import Practice from "./practice";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Auth from "./components/Auth/auth";
 
@@ -28,7 +27,6 @@ const App = () => {
             component={() => (!user ? <Auth /> : <Redirect to="/posts" />)}
           />
         </Switch>
-        <Practice />
       </Container>
     </BrowserRouter>
   );

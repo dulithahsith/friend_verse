@@ -45,9 +45,9 @@ const Navbar = () => {
           alt="Friendsverse"
           className={classes.image}
         />
-        <Typography>
+        <div>
           {user ? (
-            <Box display="flex" alignItems="center" gap={2}>
+            <Box className={classes.profile}>
               <Avatar alt={user.result?.name} src={user.result?.picture}>
                 {user.result?.name.charAt(0)}
               </Avatar>
@@ -70,10 +70,10 @@ const Navbar = () => {
               className={classes.authButton}
               onClick={logOut}
             >
-              <center>Sign In</center>
+              Sign In
             </Button>
           )}
-        </Typography>
+        </div>
       </Toolbar>
     </AppBar>
   );

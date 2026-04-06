@@ -12,6 +12,7 @@ export default makeStyles((theme) => ({
     textAlign: "center",
   },
   container: {
-    padding: "0 5%",
+    padding: "0 1%",
+    marginTop: theme.spacing(0.5),
   },
 }));

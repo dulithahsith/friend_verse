@@ -50,7 +50,7 @@ const PostDetails = () => {
 
   const openPost = (_id) => history.push(`/posts/${_id}`);
   return (
-    <Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>
+    <Paper className={classes.detailPaper} elevation={6}>
       <Box
         style={{
           display: "flex",
@@ -91,13 +91,7 @@ const PostDetails = () => {
             <img
               src={post.selectedFile}
               alt={post.title}
-              style={{
-                width: "100%",
-                maxHeight: "500px",
-                objectFit: "cover",
-                borderRadius: "12px",
-                display: "block",
-              }}
+              className={classes.detailImage}
             />
           </Box>
         )}
@@ -112,7 +106,7 @@ const PostDetails = () => {
             {recommendedPosts.map(
               ({ title, message, name, likes, selectedFile, _id }) => (
                 <div
-                  style={{ margin: "20px", cursor: "pointer" }}
+                  className={classes.recommendedCard}
                   onClick={() => openPost(_id)}
                   key={_id}
                 >

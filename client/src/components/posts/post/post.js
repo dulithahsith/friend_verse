@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { useDispatch } from "react-redux";
@@ -24,8 +24,26 @@ const Post = ({ post, setCurrentId }) => {
   const isCreator = user?.result?._id === post?.creator;
   const history = useHistory();
 
+  const [likes, setLikes] = useState(post?.likes || []);
+
+  useEffect(() => {
+    setLikes(post?.likes || []);
+  }, [post?.likes]);
+  const handleLike = () => {
+    if (!user?.result) return;
+
+    const userId = user?.result?._id;
+    const hasLiked = likes.includes(userId);
+
+    const updatedLikes = hasLiked
+      ? likes.filter((id) => id !== userId)
+      : [...likes, userId];
+
+    setLikes(updatedLikes);
+    dispatch(likePost(post._id));
+  };
+
   const Likes = () => {
-    const likes = post?.likes || [];
     if (likes.length > 0) {
       return likes.find((like) => like === user?.result?._id) ? (
         <>
@@ -51,6 +69,7 @@ const Post = ({ post, setCurrentId }) => {
       </>
     );
   };
+
   const openPost = () => history.push(`/posts/${post._id}`);
   return (
     <Card
@@ -67,16 +86,18 @@ const Post = ({ post, setCurrentId }) => {
             title={post.title}
           />
         )}
-        <div>
-          <Typography variant="h6">{post.name}</Typography>
+        <div className={classes.cardHeader}>
+          <Typography variant="h6" className={classes.author}>
+            {post.name}
+          </Typography>
           <Typography variant="h4">{post.title}</Typography>
-          <Typography variant="body2">
+          <Typography variant="body2" className={classes.timestamp}>
             {moment(post.createdAt).fromNow()}
           </Typography>
         </div>
         <div style={{ position: "absolute", top: 8, right: 8 }}>
           <Button
-            style={{ color: "black" }}
+            className={classes.editButton}
             size="small"
             disabled={!isCreator}
             onClick={(event) => {
@@ -89,30 +110,30 @@ const Post = ({ post, setCurrentId }) => {
             <MoreHorizIcon fontSize="medium" />
           </Button>
         </div>
-        <div>
-          <Typography variant="body2" color="textSecondary">
+        <div className={classes.tags}>
+          <Typography variant="body2">
             {post.tags.map((tag) => `#${tag}`)}
           </Typography>
         </div>
-        <CardContent>
-          <Typography variant="h5" gutterBottom>
+        <CardContent className={classes.content}>
+          <Typography variant="h5" gutterBottom className={classes.message}>
             {post.message}
           </Typography>
         </CardContent>
       </ButtonBase>
-      <CardActions style={{ marginTop: "auto" }}>
+      <CardActions className={classes.actionsRow}>
         <Button
+          className={classes.actionButton}
           color="primary"
           size="small"
           disabled={!user?.result}
-          onClick={() => {
-            dispatch(likePost(post._id));
-          }}
+          onClick={handleLike}
         >
           <Likes />
         </Button>
         {isCreator && (
           <Button
+            className={classes.actionButton}
             color="primary"
             size="small"
             onClick={() => {

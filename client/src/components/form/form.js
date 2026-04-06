@@ -4,8 +4,10 @@ import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 
 import { createPost, updatePost } from "../../actions/posts";
+import useStyles from "../../styles";
 
 const Form = ({ currentId, setCurrentId }) => {
+  const classes = useStyles();
   const [postData, setPostData] = useState({
     title: "",
     message: "",
@@ -37,10 +39,12 @@ const Form = ({ currentId, setCurrentId }) => {
 
   if (!user?.result?.name) {
     return (
-      <Paper>
-        <Typography variant="h6" align="center">
+      <Paper className={classes.formPaper}>
+        <Box className={classes.formPanel}>
+          <Typography variant="h6" align="center">
           Please Sign In to create your own memories and like other's memories.
-        </Typography>
+          </Typography>
+        </Box>
       </Paper>
     );
   }
@@ -55,16 +59,9 @@ const Form = ({ currentId, setCurrentId }) => {
     });
   };
   return (
-    <Paper elevation={6}>
-      <Box
-        style={{
-          padding: 16,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h4" style={{ marginBottom: 16 }}>
+    <Paper elevation={6} className={classes.formPaper}>
+      <Box className={classes.formPanel}>
+        <Typography variant="h4" className={classes.formTitle}>
           {isEditing ? "Editing a Memory" : "Creating a Memory"}
         </Typography>
         <Box
@@ -122,17 +119,14 @@ const Form = ({ currentId, setCurrentId }) => {
               setPostData({ ...postData, selectedFile: base64 })
             }
           />
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginBottom: 16 }}
-            type="submit"
-          >
-            Submit
-          </Button>
-          <Button variant="contained" color="secondary" onClick={clear}>
-            Clear
-          </Button>
+          <div className={classes.formActions}>
+            <Button variant="contained" color="primary" type="submit">
+              Submit
+            </Button>
+            <Button variant="contained" color="secondary" onClick={clear}>
+              Clear
+            </Button>
+          </div>
         </Box>
       </Box>
     </Paper>

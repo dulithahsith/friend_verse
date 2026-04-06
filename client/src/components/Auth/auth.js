@@ -89,13 +89,15 @@ const Auth = () => {
   };
   return (
     <Container component="main" maxWidth="xs">
-      <Paper className="classes.paper" elevation={3}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography variant="h5">
-          <center>{isSignup ? "Sign Up" : "Sign In"}</center>
-        </Typography>
+      <Paper className={classes.authPaper} elevation={3}>
+        <div className={classes.authHeader}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography variant="h5" className={classes.formTitle}>
+            {isSignup ? "Sign Up" : "Sign In"}
+          </Typography>
+        </div>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             {isSignup && (
@@ -145,14 +147,14 @@ const Auth = () => {
             color="primary"
             className={classes.submit}
           >
-            <center> {isSignup ? "Sign Up" : "Sign In"}</center>
+            {isSignup ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleOAuthProvider clientId="486481498459-48vt73gen4niuh90j2cftpiltjuatosb.apps.googleusercontent.com">
             <GoogleButton />
           </GoogleOAuthProvider>
           <Grid container justify="flex-end">
             <Grid item>
-              <Button onClick={switchMode}>
+              <Button onClick={switchMode} className={classes.authSwitch}>
                 {isSignup
                   ? "Already have an Account? Sign In"
                   : "Don't have an Account? Sign Up"}
