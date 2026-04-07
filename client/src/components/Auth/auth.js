@@ -149,7 +149,9 @@ const Auth = () => {
           >
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
-          <GoogleOAuthProvider clientId="486481498459-48vt73gen4niuh90j2cftpiltjuatosb.apps.googleusercontent.com">
+          <GoogleOAuthProvider
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+          >
             <GoogleButton />
           </GoogleOAuthProvider>
           <Grid container justify="flex-end">

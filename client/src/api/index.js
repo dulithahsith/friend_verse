@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
-// const url = process.env.REACT_APP_API_URL || "http://localhost:5000/posts";
+const url = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const API = axios.create({ baseURL: url });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {
@@ -55,9 +55,7 @@ const buildPostFormData = (post) => {
   formData.append("name", post.name || "");
   formData.append("selectedFile", post.selectedFile || "");
 
-  const tags = Array.isArray(post.tags)
-    ? post.tags.join(",")
-    : post.tags || "";
+  const tags = Array.isArray(post.tags) ? post.tags.join(",") : post.tags || "";
   formData.append("tags", tags);
 
   if (post.imageFile instanceof File) {
