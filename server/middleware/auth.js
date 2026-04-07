@@ -14,7 +14,7 @@ const auth = async (req, res, next) => {
     }
 
     let decodedData;
-    decodedData = jwt.verify(token, "test");
+    decodedData = jwt.verify(token, process.env.ACCESS_SECRET);
     if (decodedData.type !== "access") {
       return res.status(401).json({ message: "Invalid access token" });
     }

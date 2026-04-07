@@ -17,14 +17,14 @@ export const signIn = async (req, res) => {
       return res.status(400).json({ message: "Invalid Credentials" });
     const accessToken = jwt.sign(
       { email: existingUser.email, id: existingUser._id, type: "access" },
-      "test",
+      process.env.ACCESS_SECRET,
       {
         expiresIn: "50m",
       },
     );
     const refreshToken = jwt.sign(
       { email: existingUser.email, id: existingUser._id, type: "refresh" },
-      "refresh",
+      process.env.REFRESH_SECRET,
       {
         expiresIn: "50m",
       },
@@ -67,13 +67,13 @@ export const googleSignIn = async (req, res) => {
 
     const accessToken = jwt.sign(
       { email: existingUser.email, id: existingUser._id, type: "access" },
-      "test",
+      process.env.ACCESS_SECRET,
       { expiresIn: "15m" },
     );
 
     const refreshToken = jwt.sign(
       { id: existingUser._id, type: "refresh" },
-      "refresh",
+      process.env.REFRESH_SECRET,
       { expiresIn: "7d" },
     );
 
@@ -105,14 +105,14 @@ export const signUp = async (req, res) => {
     });
     const accessToken = jwt.sign(
       { email: result.email, id: result._id, type: "access" },
-      "test",
+      process.env.ACCESS_SECRET,
       {
         expiresIn: "50m",
       },
     );
     const refreshToken = jwt.sign(
       { email: result.email, id: result._id, type: "refresh" },
-      "refresh",
+      process.env.REFRESH_SECRET,
       {
         expiresIn: "50m",
       },
@@ -129,7 +129,7 @@ export const refresh = async (req, res) => {
     return res.status(401).json({ message: "No Refresh Token" });
   }
   try {
-    const decoded = jwt.verify(refreshToken, "refresh");
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
     if (decoded.type !== "refresh") {
       return res.status(403).json({ message: "Invalid token type" });
     }
@@ -140,7 +140,7 @@ export const refresh = async (req, res) => {
 
     const newAccessToken = jwt.sign(
       { email: user.email, id: user._id, type: "access" },
-      "test",
+      process.env.ACCESS_SECRET,
       {
         expiresIn: "50m",
       },
@@ -160,7 +160,9 @@ export const deleteUser = async (req, res) => {
   }
 
   if (req.userId !== id) {
-    return res.status(403).json({ message: "You can only delete your own account." });
+    return res
+      .status(403)
+      .json({ message: "You can only delete your own account." });
   }
 
   try {

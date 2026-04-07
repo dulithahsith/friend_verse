@@ -1,5 +1,38 @@
 import { PostMessage } from "../models/postMessage.js";
 import mongoose from "mongoose";
+import { uploadImageToS3 } from "../utils/s3.js";
+
+const normalizeTags = (tags) => {
+  if (Array.isArray(tags)) {
+    return tags.map((tag) => tag.trim()).filter(Boolean);
+  }
+
+  if (typeof tags === "string") {
+    return tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+};
+
+const buildPostPayload = async (req) => {
+  const { title, message, name, selectedFile } = req.body;
+
+  let imageUrl = selectedFile || "";
+  if (req.file) {
+    imageUrl = await uploadImageToS3(req.file);
+  }
+
+  return {
+    title,
+    message,
+    name,
+    tags: normalizeTags(req.body.tags),
+    selectedFile: imageUrl,
+  };
+};
 
 export const getPost = async (req, res) => {
   const { id } = req.params;
@@ -63,14 +96,14 @@ export const getPostsBySearch = async (req, res) => {
 };
 
 export const createPost = async (req, res) => {
-  const post = req.body;
-
-  const newPost = new PostMessage({
-    ...post,
-    creator: req.userId,
-    createdAt: new Date().toISOString(),
-  });
   try {
+    const post = await buildPostPayload(req);
+    const newPost = new PostMessage({
+      ...post,
+      creator: req.userId,
+      createdAt: new Date().toISOString(),
+    });
+
     await newPost.save();
     res.status(201).json(newPost);
   } catch (error) {
@@ -125,7 +158,8 @@ export const updatePost = async (req, res) => {
     return res.status(400).json({ message: "Invalid post id" });
   }
   try {
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, req.body, {
+    const post = await buildPostPayload(req);
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
       new: true,
     });
     res.status(200).json(updatedPost);

@@ -1,5 +1,4 @@
 import axios from "axios";
-import Post from "../components/posts/post/post";
 
 const API = axios.create({ baseURL: "http://localhost:5000" });
 // const url = process.env.REACT_APP_API_URL || "http://localhost:5000/posts";
@@ -49,9 +48,30 @@ export const fetchPostsBySearch = (searchQuery) =>
   API.get(
     `/posts/search?searchQuery=${searchQuery.search || "none"}&tags=${searchQuery.tags || ""}&page=${searchQuery.page || 1}&limit=${searchQuery.limit || 2}`,
   );
-export const createPost = (newPost) => API.post("/posts", newPost);
+const buildPostFormData = (post) => {
+  const formData = new FormData();
+  formData.append("title", post.title || "");
+  formData.append("message", post.message || "");
+  formData.append("name", post.name || "");
+  formData.append("selectedFile", post.selectedFile || "");
+
+  const tags = Array.isArray(post.tags)
+    ? post.tags.join(",")
+    : post.tags || "";
+  formData.append("tags", tags);
+
+  if (post.imageFile instanceof File) {
+    formData.append("image", post.imageFile);
+  }
+
+  return formData;
+};
+
+export const createPost = (newPost) =>
+  API.post("/posts", buildPostFormData(newPost));
 export const likePost = (id) => API.patch(`/posts/${id}/like`);
-export const updatePost = (id, post) => API.patch(`/posts/${id}`, post);
+export const updatePost = (id, post) =>
+  API.patch(`/posts/${id}`, buildPostFormData(post));
 export const deletePost = (id) => API.delete(`/posts/${id}`);
 export const commentPost = (value, id) =>
   API.post(`/posts/${id}/comment`, { value });

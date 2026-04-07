@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Paper, Box, Typography, Button, TextField } from "@material-ui/core";
-import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 
 import { createPost, updatePost } from "../../actions/posts";
@@ -11,8 +10,9 @@ const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     title: "",
     message: "",
-    tags: " ",
+    tags: "",
     selectedFile: "",
+    imageFile: null,
   });
   const post = useSelector((state) =>
     currentId ? state.posts.posts.find((p) => p._id === currentId) : null,
@@ -22,7 +22,13 @@ const Form = ({ currentId, setCurrentId }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
-    if (post) setPostData(post);
+    if (post) {
+      setPostData({
+        ...post,
+        tags: Array.isArray(post.tags) ? post.tags.join(",") : post.tags,
+        imageFile: null,
+      });
+    }
   }, [post]);
 
   const handleSubmit = (e) => {
@@ -54,8 +60,9 @@ const Form = ({ currentId, setCurrentId }) => {
     setPostData({
       title: "",
       message: "",
-      tags: " ",
+      tags: "",
       selectedFile: "",
+      imageFile: null,
     });
   };
   return (
@@ -107,17 +114,20 @@ const Form = ({ currentId, setCurrentId }) => {
             label="Tags"
             value={postData.tags}
             onChange={(e) =>
-              setPostData({ ...postData, tags: e.target.value.split(",") })
+              setPostData({ ...postData, tags: e.target.value })
             }
             style={{ marginBottom: 16 }}
           />
-          <FileBase
-            key={postData.selectedFile ? "has-file" : "no-file"}
+          <input
             type="file"
-            multiple={false}
-            onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
-            }
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0] || null;
+              setPostData({
+                ...postData,
+                imageFile: file,
+              });
+            }}
           />
           <div className={classes.formActions}>
             <Button variant="contained" color="primary" type="submit">
