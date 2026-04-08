@@ -26,7 +26,7 @@ jobs:
       - name: Build client
         run: |
           cd client
-          NODE_OPTIONS=--openssl-legacy-provider npm run build
+          CI=false NODE_OPTIONS=--openssl-legacy-provider npm run build
 
       - name: Install server dependencies
         run: |
