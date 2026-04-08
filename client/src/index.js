@@ -3,11 +3,8 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import "./index.css";
-import dotenv from "dotenv";
 import App from "./App";
 import reducers from "./reducers"; // Your existing reducers
-
-dotenv.config();
 
 // Configure the store using Redux Toolkit's configureStore
 const store = configureStore({

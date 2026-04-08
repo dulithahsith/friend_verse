@@ -68,7 +68,6 @@ const Navbar = () => {
               variant="contained"
               color="primary"
               className={classes.authButton}
-              onClick={logOut}
             >
               Sign In
             </Button>

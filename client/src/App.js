@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import jwtDecode from "jwt-decode";
 
 import Navbar from "./components/navbar/navbar";
 import Home from "./components/Home/home";
@@ -10,7 +11,30 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Auth from "./components/Auth/auth";
 
 const App = () => {
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const getStoredUser = () => {
+    try {
+      const profile = JSON.parse(localStorage.getItem("profile"));
+      const accessToken = profile?.accessToken;
+
+      if (!accessToken) {
+        return null;
+      }
+
+      const decodedToken = jwtDecode(accessToken);
+
+      if (!decodedToken?.exp || decodedToken.exp * 1000 <= Date.now()) {
+        localStorage.removeItem("profile");
+        return null;
+      }
+
+      return profile;
+    } catch (error) {
+      localStorage.removeItem("profile");
+      return null;
+    }
+  };
+
+  const user = getStoredUser();
 
   return (
     <BrowserRouter>
